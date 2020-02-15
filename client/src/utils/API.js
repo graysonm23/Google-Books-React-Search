@@ -1,9 +1,10 @@
 import axios from "axios";
-
+const BaseUrl = process.env.REACT_APP_API;
 export default {
   // Gets all books
-  getBooks: function() {
-    return axios.get("/api/books");
+  getBooks: function(value) {
+    console.log(BaseUrl);
+    return axios.get(BaseUrl + value);
   },
   // Gets the book with the given id
   getBook: function(id) {
