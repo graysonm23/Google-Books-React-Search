@@ -32,16 +32,21 @@ function Books() {
   };
 
   const handleSaveBook = event => {
-    const { authors, title, description } = books.volumeInfo;
-    const imageLink = books.volumeInfo.imageLinks.smallThumbnail;
+    const Id = event.target.getAttribute("id");
+    const Authors = event.target.getAttribute("authors");
+    const Image = event.target.getAttribute("imagelink");
+    const Description = event.target.getAttribute("description");
+    const Title = event.target.getAttribute("title");
+    const InfoLink = event.target.getAttribute("infolink");
     event.preventDefault();
-    if (authors && title && description && imageLink) {
-      API.saveBook({ authors, title, description, imageLink })
+    if (Id && Authors && Description && Image && Title && InfoLink) {
+      console.log("passed if statement");
+      API.saveBook({ Id, Authors, Image, Description, Title, InfoLink })
         .then(res => {
           console.log(res.data);
-          this.handleBooks();
+          console.log("i made it past API, im freeee");
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log("Unable to save book ", err));
     }
   };
 
@@ -58,6 +63,7 @@ function Books() {
           <h1>Search for Books</h1>
           <form onSubmit={handleBooksSubmit}>
             <Input
+              autoFocus={true}
               value={value}
               onChange={handleInputChange}
               name="title"
@@ -72,9 +78,9 @@ function Books() {
           {books.length === 0 ? <h1>Books Appear Here</h1> : <h1>Books</h1>}
           {books.length ? (
             <List>
-              {books.map(book => (
+              {books.map((book, index) => (
                 <ListItem key={book}>
-                  <Card>
+                  <Card key={index + 1}>
                     <CardImg
                       style={{
                         maxHeight: 100,
@@ -86,21 +92,35 @@ function Books() {
                       src={book.volumeInfo.imageLinks.smallThumbnail}
                       alt="Card image cap"
                     />
-                    <CardBody>
-                      <CardTitle>
+                    <CardBody key={index + 2}>
+                      <CardTitle key={index + 3}>
                         <a href={book.volumeInfo.infoLink}>
                           <strong>{book.volumeInfo.title}</strong>
                         </a>
                       </CardTitle>
                       <CardSubtitle
+                        key={index + 4}
                         style={{
                           margin: 5
                         }}
                       >
                         by <em>{book.volumeInfo.authors}</em>
                       </CardSubtitle>
-                      <CardText>{book.volumeInfo.description}</CardText>
-                      <Button onClick={handleSaveBook}>Save</Button>
+                      <CardText key={index + 5}>
+                        {book.volumeInfo.description}
+                      </CardText>
+                      <Button
+                        infolink={book.volumeInfo.infoLink}
+                        title={book.volumeInfo.title}
+                        imagelink={book.volumeInfo.imageLinks.smallThumbnail}
+                        description={book.volumeInfo.description}
+                        authors={book.volumeInfo.authors}
+                        key={index + 6}
+                        id={book.id}
+                        onClick={handleSaveBook}
+                      >
+                        Save
+                      </Button>
                     </CardBody>
                   </Card>
                 </ListItem>

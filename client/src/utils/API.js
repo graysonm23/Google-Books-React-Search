@@ -1,10 +1,14 @@
 import axios from "axios";
 const BaseUrl = process.env.REACT_APP_API;
 export default {
-  // Gets all books
+  // Gets all books from Google Books API
   getBooks: function(value) {
     console.log(BaseUrl);
     return axios.get(BaseUrl + value);
+  },
+  // Gets all Books from database
+  getAllBooks: function() {
+    return axios.get("/api/books/");
   },
   // Gets the book with the given id
   getBook: function(id) {
@@ -16,6 +20,7 @@ export default {
   },
   // Saves a book to the database
   saveBook: function(bookData) {
+    console.log(bookData);
     return axios.post("/api/books", bookData);
   }
 };

@@ -6,7 +6,7 @@ function Nav() {
       <a className="navbar-brand" href="/">
         Google Books React
       </a>
-      <a className="navbar-brand" href="/books">
+      <a className="navbar-brand" href="/books/saved">
         Saved
       </a>
     </nav>
