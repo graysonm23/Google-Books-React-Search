@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
-import { Input, FormBtn } from "../components/Form";
 import API from "../utils/API";
 import {
   Card,
@@ -20,18 +19,22 @@ function SavedBooks() {
     handleBooksRender();
   }, []);
 
-  const handleBooksRender = () => {
+  const handleBooksRender = res => {
     API.getAllBooks({})
       .then(res => {
-        console.log(res.data);
         setBooks(res.data);
       })
       .catch(err => console.log(err));
   };
 
-  const deleteBook = id => {
-    API.deleteBook(id)
-      .then(res => this.handleBooks())
+  const deleteBook = event => {
+    const Id = event.target.getAttribute("id");
+    API.deleteBook(Id)
+      .then(res => {
+        setBooks(() => {
+          return handleBooksRender();
+        });
+      })
       .catch(err => console.log(err));
   };
 
@@ -57,13 +60,13 @@ function SavedBooks() {
                       }}
                       top
                       width="100%"
-                      src={book.volumeInfo.imageLinks.smallThumbnail}
+                      src={book.image}
                       alt="Card image cap"
                     />
                     <CardBody key={index + 2}>
                       <CardTitle key={index + 3}>
-                        <a href={book.volumeInfo.infoLink}>
-                          <strong>{book.volumeInfo.title}</strong>
+                        <a href={book.infoLink}>
+                          <strong>{book.title}</strong>
                         </a>
                       </CardTitle>
                       <CardSubtitle
@@ -72,13 +75,15 @@ function SavedBooks() {
                           margin: 5
                         }}
                       >
-                        by <em>{book.volumeInfo.authors}</em>
+                        by <em>{book.author}</em>
                       </CardSubtitle>
-                      <CardText key={index + 5}>
-                        {book.volumeInfo.description}
-                      </CardText>
-                      <Button key={index + 6} id={book.id}>
-                        Save
+                      <CardText key={index + 5}>{book.description}</CardText>
+                      <Button
+                        onClick={deleteBook}
+                        key={index + 6}
+                        id={book._id}
+                      >
+                        Delete
                       </Button>
                     </CardBody>
                   </Card>

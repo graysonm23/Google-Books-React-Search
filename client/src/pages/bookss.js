@@ -40,20 +40,10 @@ function Books() {
     const InfoLink = event.target.getAttribute("infolink");
     event.preventDefault();
     if (Id && Authors && Description && Image && Title && InfoLink) {
-      console.log("passed if statement");
       API.saveBook({ Id, Authors, Image, Description, Title, InfoLink })
-        .then(res => {
-          console.log(res.data);
-          console.log("i made it past API, im freeee");
-        })
+        .then(res => {})
         .catch(err => console.log("Unable to save book ", err));
     }
-  };
-
-  const deleteBook = id => {
-    API.deleteBook(id)
-      .then(res => this.handleBooks())
-      .catch(err => console.log(err));
   };
 
   return (
