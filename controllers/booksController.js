@@ -14,7 +14,14 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   create: function(req, res) {
-    db.Book.create(req.body)
+    db.Book.create({
+      id: req.body.id,
+      title: req.body.Title,
+      author: req.body.Authors,
+      description: req.body.Description,
+      image: req.body.Image,
+      infolink: req.body.InfoLink
+    })
       .then(dbModel => {
         console.log("This is res.body: ", res.body);
         console.log("This is req.body: ", req.body);
