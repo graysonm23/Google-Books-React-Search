@@ -26,6 +26,7 @@ function Books() {
     API.getBooks(value)
       .then(res => {
         console.log(res.data.items);
+        console.log(res.data);
         setBooks(res.data.items);
       })
       .catch(err => console.log(err));
@@ -79,7 +80,11 @@ function Books() {
                       }}
                       top
                       width="100%"
-                      src={book.volumeInfo.imageLinks.smallThumbnail}
+                      src={
+                        book.volumeInfo.imageLinks
+                          ? book.volumeInfo.imageLinks.smallThumbnail
+                          : "undefined"
+                      }
                       alt="Card image cap"
                     />
                     <CardBody key={index + 2}>
@@ -102,7 +107,11 @@ function Books() {
                       <Button
                         infolink={book.volumeInfo.infoLink}
                         title={book.volumeInfo.title}
-                        imagelink={book.volumeInfo.imageLinks.smallThumbnail}
+                        imagelink={
+                          book.volumeInfo.imageLinks
+                            ? book.volumeInfo.imageLinks.smallThumbnail
+                            : "undefined"
+                        }
                         description={book.volumeInfo.description}
                         authors={book.volumeInfo.authors}
                         key={index + 6}
