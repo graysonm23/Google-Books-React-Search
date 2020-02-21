@@ -31,9 +31,7 @@ function SavedBooks() {
     const Id = event.target.getAttribute("id");
     API.deleteBook(Id)
       .then(res => {
-        setBooks(() => {
-          return handleBooksRender();
-        });
+        return handleBooksRender();
       })
       .catch(err => console.log(err));
   };
@@ -61,7 +59,6 @@ function SavedBooks() {
                       top
                       width="100%"
                       src={book.image}
-                      target="_blank"
                       alt="Card image cap"
                     />
                     <CardBody key={index + 2}>
